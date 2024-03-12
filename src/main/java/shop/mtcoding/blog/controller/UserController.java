@@ -21,11 +21,12 @@ public class UserController {
     @GetMapping("/user/update-form")
     public String updateForm() {
 
-        return "update-form";
+        return "/user/update-form";
     }
 
     @GetMapping("/logout")
     public String logout() {
+
         return "redirect:/";
     }
 }
