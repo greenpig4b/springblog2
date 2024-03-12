@@ -5,9 +5,9 @@
     <!-- 요청을 하면 localhost:8080/board/save POST로 요청됨
     title=사용자입력값&content=사용자값 -->
     <div class="card">
-        <div class="card-header"><b>글쓰기 화면입니다</b></div>
+        <div class="card-header"><b>글수정 화면입니다</b></div>
         <div class="card-body">
-            <form action="/board/save" method="post" enctype="application/x-www-form-urlencoded">
+            <form action="/board/{{board.id}}/update" method="post" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" name="id" value="{{board.id}}">
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Enter username" name="userName" value="{{board.userName}}">
@@ -16,9 +16,9 @@
                     <input type="text" class="form-control" placeholder="Enter title" name="title" value="{{board.title}}">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content" value="{{board.content}}"></textarea>
+                    <textarea class="form-control" rows="5" name="content" >{{board.content}}</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary form-control">글쓰기완료</button>
+                <button type="submit" class="btn btn-primary form-control">글수정완료</button>
             </form>
         </div>
     </div>

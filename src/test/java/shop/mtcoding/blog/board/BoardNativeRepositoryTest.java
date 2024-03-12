@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class BoardNativeRepositoryTest {
 
         //given
 
-        //whren
+        //when
         Board board = boardNativeRepository.findById(1);
 
         //then
@@ -48,5 +47,40 @@ public class BoardNativeRepositoryTest {
         Assertions.assertThat(board.getContent()).isEqualTo("내용1");
 
     }
+
+
+    @Test
+    public void deleteById_test(){
+        //given
+        Integer id = 1;
+        //when
+        boardNativeRepository.deleteById(id);
+
+        //then
+
+        List<Board> boardList = boardNativeRepository.findAll();
+
+
+        Assertions.assertThat(boardList.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void updateById_test(){
+        //given
+        Integer id =1;
+        String title = "제목수정";
+        String cotent = "컨텐츠수정";
+        String userName = "이름수정";
+        //when
+        boardNativeRepository.updateById(title,cotent,userName,id);
+        //then
+
+        Board board = boardNativeRepository.findById(1);
+
+        System.out.println(board);
+
+    }
+
+
 
 }
