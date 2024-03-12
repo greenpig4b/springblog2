@@ -3,7 +3,8 @@ package shop.mtcoding.blog.board;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 import java.sql.Timestamp;
@@ -11,6 +12,8 @@ import java.sql.Timestamp;
 @Data
 @Table(name = "board_tb")
 @Entity
+@NoArgsConstructor // 디폴트 생성자가 있어야한다.
+
 public class Board {
 
     @Id
@@ -19,6 +22,16 @@ public class Board {
     private String title;
     private String content;
     private String userName;
+
+
+    public Board(String title, String content, String userName ) {
+        this.title = title;
+        this.content = content;
+        this.userName = userName;
+
+    }
+
+    @CreationTimestamp  // pc --> db(알아서 날짜주입해줌)
     private Timestamp createdAt;
 
 }

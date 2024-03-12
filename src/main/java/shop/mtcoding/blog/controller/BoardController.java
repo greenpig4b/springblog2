@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog.board.Board;
 import shop.mtcoding.blog.board.BoardNativeRepository;
+import shop.mtcoding.blog.board.BoardPersistRepository;
+import shop.mtcoding.blog.board.BoardRequest;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardNativeRepository boardNativeRepository;
+    private final BoardPersistRepository boardPersistRepository;
 
 
     //Model : 안에 리퀘스트 포함하고있음
@@ -30,9 +33,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(String userName,String title,String content){
+    public String save(BoardRequest.SaveDTO requestDTO){
 
-        boardNativeRepository.save(title,content,userName);
+    boardPersistRepository.save(requestDTO.toEntity());
 
         return "redirect:/";
     }
