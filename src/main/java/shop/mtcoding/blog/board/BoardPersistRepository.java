@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 
 public class BoardPersistRepository {
+
     private final EntityManager em;
 
 
@@ -68,14 +69,8 @@ public class BoardPersistRepository {
 
     }
 
-
-
-
-
-
     //게시글 수정
-    @Transactional
-    public void updateById(String title,String content, String userName,Integer id){
+    public void updateById(Integer id ,BoardRequest.UpdateDTO requestDTO){
 
     }
 

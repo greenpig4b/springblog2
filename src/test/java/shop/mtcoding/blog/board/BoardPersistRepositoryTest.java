@@ -90,4 +90,20 @@ public class BoardPersistRepositoryTest {
 
     }
 
+    @Test
+    public void updateById_test(){
+        //given
+        Integer id = 1;
+        String title = "제목수정1";
+        //when
+        Board board = boardPersistRepository.findById(id);
+        board.setTitle(title);
+        em.flush();  // 이시점에서 쿼리 날림
+        //조회해서 수정하는걸 더티채킹이라고한다.
+
+        //then
+        System.out.println(board);
+    }
+
+
 }

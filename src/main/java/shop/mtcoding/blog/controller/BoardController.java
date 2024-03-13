@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,16 +60,20 @@ public class BoardController {
     @GetMapping("/board/{id}/update-form")
     public String updateform(@PathVariable Integer id , HttpServletRequest request){
 
-        Board board = boardNativeRepository.findById(id);
+        Board board = boardPersistRepository.findById(id);
         request.setAttribute("board",board);
 
          return "/board/update-form";
     }
 
+    @Transactional
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id,String title,String content,String userName){
+    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO requestDTO){
+        //영속화된 객체를 변경 후 트렌잭션이 끝나면 쿼리날려 업데이트
+        Board board = boardPersistRepository.findById(id);
+        board.update(requestDTO);
+        //더티채킹
 
-        boardNativeRepository.updateById(title,content,userName,id);
         return "redirect:/board/"+id;
     }
 
