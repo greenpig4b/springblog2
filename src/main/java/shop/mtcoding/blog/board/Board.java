@@ -22,13 +22,13 @@ public class Board {
     private String title;
     private String content;
     private String userName;
+    private Integer me;
 
-
-    public Board(String title, String content, String userName ) {
+    public Board(String title, String content, String userName, Integer me) {
         this.title = title;
         this.content = content;
         this.userName = userName;
-
+        this.me = me;
     }
 
     @CreationTimestamp  // pc --> db(알아서 날짜주입해줌)

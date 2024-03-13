@@ -1,9 +1,12 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
@@ -11,15 +14,20 @@ import org.springframework.stereotype.Repository;
 public class BoardPersistRepository {
     private final EntityManager em;
 
-    // 보드 리스트 화면에뿌림
-    public void findAll(){
 
+    // 보드 리스트 화면에뿌림
+    public List<Board> findAll(){
+        Query query =em.createQuery(" select b from Board b order by b.id desc",Board.class);
+
+        return query.getResultList();
     }
+
 
     // 보드 상세보기
     public void findById(Integer id){
 
     }
+
 
     // 게시글 저장 퍼시스트 컨택트
     @Transactional

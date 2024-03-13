@@ -10,9 +10,10 @@ public class BoardRequest {
         private String title;
         private String content;
         private String userName;
+        private Integer me;
 
         public Board toEntity(){
-            return  new Board(title,content,userName);
+            return  new Board(title,content,userName,me);
         }
 
     }
