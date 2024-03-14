@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog.board.Board;
 import shop.mtcoding.blog.board.BoardRepository;
 import shop.mtcoding.blog.board.BoardRequest;
+import shop.mtcoding.blog.user.User;
+import shop.mtcoding.blog.user.UserRepository;
 
 import java.util.List;
 
@@ -18,7 +21,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardRepository boardRepository;
-
+    private final HttpSession session;
 
 
     //Model : 안에 리퀘스트 포함하고있음
@@ -30,7 +33,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(){
+    public String save(BoardRequest.SaveDTO reqDTO){
+       User user = (User) session.getAttribute("sessionUser");
+       boardRepository.save(reqDTO.toEntity(user));
 
         return "redirect:/";
     }
@@ -51,16 +56,20 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateform(@PathVariable Integer id ){
+    public String updateform(@PathVariable Integer id, HttpServletRequest request){
+
+        Board board = boardRepository.findByIdJoinUser(id);
+        request.setAttribute("board",board);
 
          return "/board/update-form";
     }
 
     @Transactional
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id){
+    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO reqDTO){
 
-        //더티채킹
+        Board board = boardRepository.findByIdJoinUser(id);
+        board.update(reqDTO);
 
         return "redirect:/board/"+id;
     }

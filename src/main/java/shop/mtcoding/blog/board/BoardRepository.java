@@ -3,6 +3,7 @@ package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shop.mtcoding.blog.user.User;
@@ -14,8 +15,6 @@ import java.util.List;
 public class BoardRepository {
 
     private final EntityManager em;
-
-
 
     public Board findById(Integer id){
 
@@ -39,9 +38,12 @@ public class BoardRepository {
         return  boardList;
     }
 
-    // =================================================================
-
-
+    //글쓰기
+    @Transactional
+    public void save(Board board){
+        em.persist(board);
+    }
+    //Test 안하는이유는 이미 만들어져있는 라이브러리 이므로 할 필요가 없다.
 
 
 }

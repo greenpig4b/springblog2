@@ -45,6 +45,7 @@ public class BoardRepositoryTest {
 
     }
 
+
     @Test
     public void findAll_lazyLoding_test(){
         List<Board> boardList = boardRepository.findAll();
