@@ -23,8 +23,9 @@ public class BoardController {
 
     //Model : 안에 리퀘스트 포함하고있음
     @GetMapping({ "/"})
-    public String index() {
-
+    public String index(HttpServletRequest request) {
+        List<Board> boardList = boardRepository.findAll();
+        request.setAttribute("boardList",boardList);
         return "index";
     }
 

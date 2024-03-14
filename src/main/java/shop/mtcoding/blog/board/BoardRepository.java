@@ -6,16 +6,19 @@ import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class BoardRepository {
 
     private final EntityManager em;
 
+
+
     public Board findById(Integer id){
 
         Board board = em.find(Board.class,id);
-
         return board;
     }
 
@@ -27,4 +30,11 @@ public class BoardRepository {
         return board;
     }
 
+    //목록보기
+    public List<Board> findAll(){
+        Query query = em.createQuery("select b from Board b join fetch b.user u order by b.id desc ",Board.class);
+        List<Board> boardList = query.getResultList();
+
+        return  boardList;
+    }
 }
