@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -32,9 +33,15 @@ public class BoardRepository {
 
     //목록보기
     public List<Board> findAll(){
-        Query query = em.createQuery("select b from Board b join fetch b.user u order by b.id desc ",Board.class);
+        Query query = em.createQuery("select b from Board b order by b.id desc ",Board.class);
         List<Board> boardList = query.getResultList();
 
         return  boardList;
     }
+
+    // =================================================================
+
+
+
+
 }

@@ -31,4 +31,5 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        # default_batch_fetch_size: 10 쿼리들고 올때 in(?,?,?,?,?) 넣어준다.
     defer-datasource-initialization: true

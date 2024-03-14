@@ -28,7 +28,6 @@ public class User {
     private Timestamp createdAt;
 
 
-
     @Builder
     public User(Integer id, String userName, String password, String email, Timestamp createdAt) {
         this.id = id;
