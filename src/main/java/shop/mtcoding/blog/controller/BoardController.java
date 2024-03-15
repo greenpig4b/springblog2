@@ -22,7 +22,7 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
     private final HttpSession session;
-
+    private final UserRepository userRepository;
 
     //Model : 안에 리퀘스트 포함하고있음
     @GetMapping({ "/"})
@@ -48,15 +48,17 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id,BoardRequest.ViewDTO viewDTO,HttpServletRequest request) {
-
+    public String detail(@PathVariable Integer id,HttpServletRequest request) {
+        User user = (User) session.getAttribute("sessionUser");
         Board board = boardRepository.findByIdJoinUser(id);
 
+        if (board.getUser().getId() == user.getId()){
+            board.setMe(true);
+        }
+
+        System.out.println(board);
 
 
-        //1. 상세보기 페이지로 넘어갔을때 주인페이지로 넘어간다.
-        //2. 로그인한 유저중에 userId가 다르면  boolean 처리로 보이지않도록 한다.
-        //3. request 담아서  mustache에 뿌린다.
         request.setAttribute("board",board);
         return "/board/detail";
     }

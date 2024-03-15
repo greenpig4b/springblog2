@@ -23,7 +23,7 @@ public class Board {
     private Integer id;
     private String title;
     private String content;
-
+    private boolean me;
     // @JoinColumn(name = "user_id") 직접변경할 수 있음
     @ManyToOne(fetch = FetchType.LAZY)  //LAZY 전략 join 필요한건 직접적어서 결과값 가져오기
     private User user;

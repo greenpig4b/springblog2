@@ -12,7 +12,7 @@ public class BoardRequest {
     public static class SaveDTO{
         private String title;
         private String content;
-
+        private boolean me;
 
         //DTO를 클라이언트로 부터 받아서, PC에 전달하기 위해서 사용
         //toEntity 는 insert할때만 사용한다.
@@ -25,14 +25,6 @@ public class BoardRequest {
         }
     }
 
-    @Data
-    @Builder
-    public static class ViewDTO{
-        private String title;
-        private String content;
-        private boolean me;
-
-    }
 
 
 
