@@ -45,5 +45,13 @@ public class BoardRepository {
     }
     //Test 안하는이유는 이미 만들어져있는 라이브러리 이므로 할 필요가 없다.
 
+    //삭제하기
+    @Transactional
+    public void deleteById(Integer id){
+        Query query = em.createQuery("delete from Board b where b.id = :id");
+        query.setParameter("id",id);
+        query.executeUpdate();
+    }
+
 
 }

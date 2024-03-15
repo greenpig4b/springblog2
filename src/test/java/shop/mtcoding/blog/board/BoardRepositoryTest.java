@@ -44,6 +44,19 @@ public class BoardRepositoryTest {
         //then
 
     }
+    @Test
+    public void deleteById_test(){
+        //given
+        Integer id =2;
+
+        //when
+        boardRepository.deleteById(id);
+        //then
+        Board board = (Board) boardRepository.findAll();
+
+        System.out.println(board);
+    }
+
 
 
     @Test
