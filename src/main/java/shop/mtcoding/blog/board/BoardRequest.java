@@ -3,6 +3,7 @@ package shop.mtcoding.blog.board;
 import jakarta.persistence.Entity;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import shop.mtcoding.blog.user.User;
 
 public class BoardRequest {
@@ -23,11 +24,13 @@ public class BoardRequest {
 
     }
 
+
     @Data
     public static class UpdateDTO{
         private String title;
         private String content;
 
     }
+
 
 }

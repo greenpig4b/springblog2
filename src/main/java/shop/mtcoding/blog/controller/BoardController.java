@@ -48,8 +48,12 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, HttpServletRequest request) {
-
+        User user = (User) session.getAttribute("sessionUser");
         Board board = boardRepository.findByIdJoinUser(id);
+
+
+
+
 
         request.setAttribute("board",board);
         return "/board/detail";

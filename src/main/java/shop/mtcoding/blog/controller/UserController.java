@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 import shop.mtcoding.blog.user.UserRequest;
@@ -53,7 +54,12 @@ public class UserController {
         User user = (User) session.getAttribute("sessionUser");
         userRepository.findById(user.getId());
 
+        if (user == null){
+            System.out.println("비어있습니다~~~ 비어있습니다~~~ 비어있습니다~~~ 비어있습니다~~~ ");
+        }
+
         request.setAttribute("userList",user);
+
         return "/user/update-form";
     }
 
