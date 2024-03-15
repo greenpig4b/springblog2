@@ -5,12 +5,12 @@
     <!-- 수정삭제버튼 -->
 
     <div class="d-flex justify-content-end">
-
+        {{#me}}
         <a href="/board/{{id}}/update-form" class="btn btn-warning me-1">수정</a>
         <form method="post" action="/board/{{id}}/delete">
             <button class="btn btn-danger">삭제</button>
         </form>
-
+        {{/me}}
     </div>
 
     <div class="d-flex justify-content-end">

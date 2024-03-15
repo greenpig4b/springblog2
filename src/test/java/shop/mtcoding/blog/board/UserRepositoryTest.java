@@ -26,9 +26,13 @@ public class UserRepositoryTest {
         UserRequest.LoginDTO reqDTO = new UserRequest.LoginDTO();
         reqDTO.setUserName("ssar");
         reqDTO.setPassword("1234");
+
         //when
         User user = userRepository.findByUserNameAndPassword(reqDTO);
+
         System.out.println(user);
     }
+
+
 
 }

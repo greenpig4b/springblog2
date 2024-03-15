@@ -23,7 +23,7 @@ public class User {
     private String userName;
     private String password; // 비밀번호 만들때 hash 60자 넘어감
     private String email;
-
+   // 유저 주인인지 아닌지 알아보기 위해서 넣어줌 주인이면 삭제 및 수정가능
     @CreationTimestamp  // pc --> db(알아서 날짜주입해줌)
     private Timestamp createdAt;
 
@@ -35,5 +35,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.createdAt = createdAt;
+
     }
+
 }
