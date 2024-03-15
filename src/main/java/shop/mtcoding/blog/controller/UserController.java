@@ -1,9 +1,12 @@
 package shop.mtcoding.blog.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
@@ -46,9 +49,25 @@ public class UserController {
     }
 
     @GetMapping("/user/update-form")
-    public String updateForm() {
+    public String updateForm(HttpServletRequest request) {
+        User user = (User) session.getAttribute("sessionUser");
+        userRepository.findById(user.getId());
 
+        request.setAttribute("userList",user);
         return "/user/update-form";
+    }
+
+
+    @Transactional
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO updateDTO){
+
+        User user = (User) session.getAttribute("sessionUser");
+        User updateUser = userRepository.findById(user.getId());
+
+        updateUser.update(updateDTO);
+
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
