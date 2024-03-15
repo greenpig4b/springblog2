@@ -40,10 +40,13 @@ public class BoardRepository {
 
     //글쓰기
     @Transactional
-    public void save(Board board){
+    public Board save(Board board){
         em.persist(board);
+
+        return board;
     }
     //Test 안하는이유는 이미 만들어져있는 라이브러리 이므로 할 필요가 없다.
+
 
     //삭제하기
     @Transactional
@@ -53,5 +56,12 @@ public class BoardRepository {
         query.executeUpdate();
     }
 
+    //수정하기
+    @Transactional
+    public void update(Integer id,BoardRequest.UpdateDTO updateDTO){
+        Board board = findById(id);
+        board.setTitle(updateDTO.getTitle());
+        board.setTitle(updateDTO.getContent());
 
+    }
 }

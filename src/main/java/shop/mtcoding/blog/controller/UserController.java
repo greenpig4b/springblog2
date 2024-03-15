@@ -21,16 +21,22 @@ public class UserController {
     public String login(UserRequest.LoginDTO loginDTO){
 
         User sessinUser = userRepository.findByUserNameAndPassword(loginDTO);
-
         session.setAttribute("sessionUser",sessinUser);
 
         return "redirect:/";
     }
+    @PostMapping("/join")
+    public String join(UserRequest.JoinDTO reqDTO){
+        User user = userRepository.save(reqDTO.toEntity());
+        session.setAttribute("sessionUser",user);
 
-    @GetMapping("/join-form")
+        return "redirect:/";
+    }
+
+    @GetMapping("/user/join-form")
     public String joinForm() {
 
-        return "/join-form";
+        return "/user/join-form";
     }
 
     @GetMapping("/user/login-form")
@@ -47,6 +53,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
+
         session.invalidate();
         return "redirect:/";
     }

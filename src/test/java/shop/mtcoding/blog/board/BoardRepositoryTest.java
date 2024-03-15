@@ -52,11 +52,10 @@ public class BoardRepositoryTest {
         //when
         boardRepository.deleteById(id);
         //then
-        Board board = (Board) boardRepository.findAll();
+        List<Board> boardList = boardRepository.findAll();
 
-        System.out.println(board);
+        System.out.println(boardList.size());
     }
-
 
 
     @Test
@@ -68,10 +67,19 @@ public class BoardRepositoryTest {
     }
 
     @Test
+    public void upadate_test(){
+        //given
+
+        em.flush();
+        //then
+    }
+
+    @Test
     public void ssss(){
         List<Board> boardList = boardRepository.findAll();
         System.out.println(boardList);
     }
+
     @Test
     public void findUserId_test(){
 

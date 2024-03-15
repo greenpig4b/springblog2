@@ -20,4 +20,9 @@ public class UserRepository {
         return user;
     }
 
+    public User save(User user){
+        em.persist(user);
+
+        return user;
+    }
 }
