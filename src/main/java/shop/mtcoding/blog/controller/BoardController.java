@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
-import shop.mtcoding.blog.board.Board;
-import shop.mtcoding.blog.board.BoardRepository;
-import shop.mtcoding.blog.board.BoardRequest;
-import shop.mtcoding.blog.board.BoardService;
+import shop.mtcoding.blog.board.*;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
@@ -30,10 +27,11 @@ public class BoardController {
     //Model : 안에 리퀘스트 포함하고있음
     @GetMapping({ "/"})
     public String index(HttpServletRequest request) {
-        List<Board> boardList = boardRepository.findAll();
+        List<Board> boardList =boardService.boardList();
         request.setAttribute("boardList",boardList);
         return "index";
     }
+
 
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO){
@@ -50,21 +48,11 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id, HttpServletRequest request) {
+    public String detail(@PathVariable Integer id,HttpServletRequest request) {
         User user = (User) session.getAttribute("sessionUser");
-        Board board = boardRepository.findByIdJoinUser(id);
 
+      Board board = boardService.boardDetail(id,user);
 
-        boolean isOwner = false;
-        if (user != null){
-            isOwner = false;
-
-            if (user.getId() == board.getUser().getId()){
-                isOwner = true;
-            }
-        }
-
-        request.setAttribute("isOwner",isOwner);
         request.setAttribute("board",board);
         return "/board/detail";
     }

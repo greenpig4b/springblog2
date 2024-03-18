@@ -2,17 +2,42 @@ package shop.mtcoding.blog.board;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.user.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service // IOC 등록
 public class BoardService {
     private final BoardJPARepository boardJPARepository; // D.I 의존성주입
+
+
+    //글상세보기
+    public Board boardDetail(Integer boardId ,User sessionUser){
+        Board board = boardJPARepository.findByJoinUser(boardId)
+                .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
+
+        boolean isOwner = false;
+        if(sessionUser != null){
+            if(sessionUser.getId() == board.getUser().getId()){
+                isOwner = true;
+            }
+        }
+        board.setOwner(isOwner);
+
+        return board;
+    }
+
+    //글조회
+    public List<Board> boardList(){
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        return boardJPARepository.findAll(sort);
+    }
 
     //글쓰기
     @Transactional
@@ -25,7 +50,6 @@ public class BoardService {
     public Board updateForm(Integer boardId){
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
-
         return board;
     }
 
