@@ -13,6 +13,7 @@ import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.board.Board;
 import shop.mtcoding.blog.board.BoardRepository;
 import shop.mtcoding.blog.board.BoardRequest;
+import shop.mtcoding.blog.board.BoardService;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
@@ -24,7 +25,7 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
     private final HttpSession session;
-
+    private final BoardService boardService;
 
     //Model : 안에 리퀘스트 포함하고있음
     @GetMapping({ "/"})
@@ -37,9 +38,9 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO){
        User user = (User) session.getAttribute("sessionUser");
-       boardRepository.save(reqDTO.toEntity(user));
+       boardService.write(reqDTO,user);
 
-        return "redirect:/";
+       return "redirect:/";
     }
 
     @GetMapping("/board/save-form")
@@ -70,12 +71,7 @@ public class BoardController {
 
     @GetMapping("/board/{id}/update-form")
     public String updateform(@PathVariable Integer id, HttpServletRequest request){
-        Board board = boardRepository.findByIdJoinUser(id);
-
-        if (board.getUser().getId() == null){
-            throw new Exception404("해당 게시글을 찾을 수 없습니다");
-        }
-
+        Board board = boardService.updateForm(id);
         request.setAttribute("board",board);
 
          return "/board/update-form";
@@ -84,15 +80,8 @@ public class BoardController {
     @Transactional
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id,BoardRequest.UpdateDTO reqDTO){
-
         User user = (User) session.getAttribute("sessionUser");
-        Board board = boardRepository.findByIdJoinUser(id);
-
-        if (user.getId() != board.getUser().getId()){
-            throw new Exception403("권한이없습니다.");
-        }
-
-        board.update(reqDTO);
+        boardService.update(id,user.getId(),reqDTO);
 
         return "redirect:/board/"+id;
     }
@@ -100,13 +89,7 @@ public class BoardController {
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable Integer id){
         User user = (User) session.getAttribute("sessionUser");
-        Board board = boardRepository.findByIdJoinUser(id);
-
-        if (user.getId() != board.getUser().getId()){
-            throw new Exception403("권한이없습니다.");
-        }
-
-        boardRepository.deleteById(id);
+        boardService.delete(id,user.getId());
 
         return "redirect:/";
     }

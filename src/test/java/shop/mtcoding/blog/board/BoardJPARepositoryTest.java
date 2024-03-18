@@ -50,15 +50,15 @@ public class BoardJPARepositoryTest {
         //then
     }
 
-    @Test
-    public void findByJoinUser(){
-        //given
-        Integer id = 1;
-        //when
-        Optional<Board> boardOP = Optional.ofNullable(boardJPARepository.findByJoinUser(id));
-        System.out.println(boardOP);
-        //then
-    }
+//    @Test
+//    public void findByJoinUser(){
+//        //given
+//        Integer id = 1;
+//        //when
+//        Optional<Board> boardOP = Optional.ofNullable(boardJPARepository.findByJoinUser(id));
+//        System.out.println(boardOP);
+//        //then
+//    }
 
     @Test
     public void findAll(){

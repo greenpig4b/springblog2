@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
+import shop.mtcoding.blog._core.errors.exception.Exception404;
 
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequiredArgsConstructor
 @Service  // IOC 등록
@@ -35,5 +38,23 @@ public class UserService {
         User sessionUser =  userJPARepository.findByUserNameAndPassword(reqDTO.getUserName(),reqDTO.getPassword())
                 .orElseThrow(() -> new Exception401("인증되지않았습니다"));
         return sessionUser;
+    }
+
+    //업데이트 수정 Form
+    public User updateForm(Integer id){
+        User user = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다.")); //예외처리
+        return user ;
+    }
+
+    //업데이트 수정
+    @Transactional
+    public User update(Integer id,UserRequest.UpdateDTO reqDTO){
+        User user = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다."));
+        user.setPassword(reqDTO.getPassword());
+        user.setEmail(reqDTO.getEmail());
+
+        return user;
     }
 }

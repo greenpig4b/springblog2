@@ -60,8 +60,8 @@ public class UserController {
     @GetMapping("/user/update-form")
     public String updateForm(HttpServletRequest request) {
 
-        User user = (User) session.getAttribute("sessionUser");
-        userRepository.findById(user.getId());
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        User user = userService.updateForm(sessionUser.getId());
         request.setAttribute("userList",user);
 
         return "/user/update-form";
@@ -72,8 +72,8 @@ public class UserController {
     public String update(UserRequest.UpdateDTO updateDTO){
 
         User user = (User) session.getAttribute("sessionUser");
-        User updateUser = userRepository.findById(user.getId());
-        updateUser.update(updateDTO);
+        User newSessionUser = userService.update(user.getId(),updateDTO);
+        session.setAttribute("sessionUser",newSessionUser);
 
         return "redirect:/";
     }
