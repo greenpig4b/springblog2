@@ -30,7 +30,6 @@ public class Board {
 
     @CreationTimestamp  // pc --> db(알아서 날짜주입해줌)
     private Timestamp createdAt;
-    private boolean me;
 
     @Builder
     public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
@@ -39,10 +38,6 @@ public class Board {
         this.content = content;
         this.user = user;
         this.createdAt = createdAt;
-    }
-
-    public void updateMe(){
-
     }
 
 
