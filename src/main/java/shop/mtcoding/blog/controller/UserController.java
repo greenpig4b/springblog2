@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
-import shop.mtcoding.blog.user.User;
-import shop.mtcoding.blog.user.UserRepository;
-import shop.mtcoding.blog.user.UserRequest;
+import shop.mtcoding.blog.user.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -23,16 +21,19 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final HttpSession session;
-
+    private final UserJPARepository userJPARepository;
+    private final UserService userService;
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO loginDTO){
-        try {
-            User sessinUser = userRepository.findByUserNameAndPassword(loginDTO);
-            session.setAttribute("sessionUser",sessinUser);
-        }catch (EmptyResultDataAccessException e){
-            throw new Exception401("유저닉네임 혹은 비밀번호가 틀렸습니다.");
-        }
+//        try {
+//            User sessinUser = userRepository.findByUserNameAndPassword(loginDTO);
+//            session.setAttribute("sessionUser",sessinUser);
+//        }catch (EmptyResultDataAccessException e){
+//            throw new Exception401("유저닉네임 혹은 비밀번호가 틀렸습니다.");
+//        }
+        User sessionUser = userService.login(loginDTO);
+        session.setAttribute("sessionUser",sessionUser);
 
         return "redirect:/";
     }
@@ -40,15 +41,8 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO){
-
-        try {
-            User user = userRepository.save(reqDTO.toEntity());
-            session.setAttribute("sessionUser",user);
-            return "redirect:/";
-        }catch (DataIntegrityViolationException e){
-            throw new Exception400("이미있는 유저닉네임입니다.");
-        }
-
+        userService.join(reqDTO);
+        return "redirect: /";
     }
 
     @GetMapping("/user/join-form")
