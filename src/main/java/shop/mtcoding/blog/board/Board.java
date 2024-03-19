@@ -33,10 +33,12 @@ public class Board {
     private Timestamp createdAt;
 
     @Transient // 테이블 생성이 안됨
-    private boolean isOwner;
+    private boolean BoardOwner;
 
     // LAZY 디폴트
-    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY)  // 필드생성하지않고 담는용도로만 쓰임 Entity객체 필드명으로 mapperdBy 설정
+    @OrderBy("id desc ")
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    // 필드생성하지않고 담는용도로만 쓰임 Entity객체 필드명으로 mapperdBy 설정
     private List<Reply> replyList = new ArrayList<>(); // 초기화 시키는이유 null 들어가면 터질 수 있으므로
 
     @Builder

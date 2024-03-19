@@ -89,7 +89,7 @@ public class BoardJPARepositoryTest {
         Integer id = 4;
 
         //when
-        Optional<Board> board = boardJPARepository.findByJoinUserAndReplys(id);
+        Optional<Board> board = boardJPARepository.findByJoinUser(id);
 
         //then
         System.out.println("사이즈~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+board.get().getReplyList().size());

@@ -18,37 +18,49 @@ public class BoardService {
 
 
     //글상세보기
-    public Board boardDetail(Integer boardId ,User sessionUser){
+    public Board boardDetail(Integer boardId, User sessionUser) {
         Board board = boardJPARepository.findByJoinUser(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
 
-        boolean isOwner = false;
-        if(sessionUser != null){
-            if(sessionUser.getId() == board.getUser().getId()){
-                isOwner = true;
+        boolean BoardOwner = false;
+        if (sessionUser != null) {
+            if (sessionUser.getId() == board.getUser().getId()) {
+                BoardOwner = true;
             }
         }
+        board.setBoardOwner(BoardOwner);
 
-        board.setOwner(isOwner);
+
+        board.getReplyList().forEach(reply -> {
+            boolean ReplyOwner = false;
+
+            if (sessionUser != null) {
+                if (reply.getUser().getId() == sessionUser.getId()) {
+                    ReplyOwner = true;
+                }
+            }
+            reply.setReplyOwner(ReplyOwner);
+        });
 
         return board;
     }
 
     //글조회
-    public List<Board> boardList(){
-        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+    public List<Board> boardList() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         return boardJPARepository.findAll(sort);
     }
 
     //글쓰기
     @Transactional
-    public Board write(BoardRequest.SaveDTO reqDTO, User sessionUser){
+    public Board write(BoardRequest.SaveDTO reqDTO, User sessionUser) {
         Board board = boardJPARepository.save(reqDTO.toEntity(sessionUser));
+
         return board;
     }
 
     //글수정 Form
-    public Board updateForm(Integer boardId){
+    public Board updateForm(Integer boardId) {
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         return board;
@@ -56,14 +68,14 @@ public class BoardService {
 
     //글수정하기
     @Transactional
-    public Board update(Integer boardId,Integer sessionUserId,BoardRequest.UpdateDTO reqDTO){
+    public Board update(Integer boardId, Integer sessionUserId, BoardRequest.UpdateDTO reqDTO) {
         //Optional 정리필요
 
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
 
         //권한처리
-        if (sessionUserId != board.getUser().getId()){
+        if (sessionUserId != board.getUser().getId()) {
             throw new Exception403("수정할 권한이없습니다.");
         }
 
@@ -77,13 +89,13 @@ public class BoardService {
 
     //글삭제하기
     @Transactional
-    public void delete(Integer boardId,Integer sessionUserId ){
+    public void delete(Integer boardId, Integer sessionUserId) {
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         //런타임 입섹션이 터지면 롤백된다.
 
         //권한처리
-        if (sessionUserId != board.getUser().getId()){
+        if (sessionUserId != board.getUser().getId()) {
             throw new Exception403("수정할 권한이없습니다.");
         }
 

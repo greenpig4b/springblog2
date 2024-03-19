@@ -25,20 +25,20 @@ public class BoardController {
     private final BoardService boardService;
 
     //Model : 안에 리퀘스트 포함하고있음
-    @GetMapping({ "/"})
+    @GetMapping({"/"})
     public String index(HttpServletRequest request) {
-        List<Board> boardList =boardService.boardList();
-        request.setAttribute("boardList",boardList);
+        List<Board> boardList = boardService.boardList();
+        request.setAttribute("boardList", boardList);
         return "index";
     }
 
 
     @PostMapping("/board/save")
-    public String save(BoardRequest.SaveDTO reqDTO){
-       User user = (User) session.getAttribute("sessionUser");
-       boardService.write(reqDTO,user);
+    public String save(BoardRequest.SaveDTO reqDTO) {
+        User user = (User) session.getAttribute("sessionUser");
+        boardService.write(reqDTO, user);
 
-       return "redirect:/";
+        return "redirect:/";
     }
 
     @GetMapping("/board/save-form")
@@ -48,36 +48,36 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id,HttpServletRequest request) {
+    public String detail(@PathVariable Integer id, HttpServletRequest request) {
         User user = (User) session.getAttribute("sessionUser");
-        Board board = boardService.boardDetail(id,user);
+        Board board = boardService.boardDetail(id, user);
 
-        request.setAttribute("board",board);
+        request.setAttribute("board", board);
         System.out.println("서버 사이드 렌더링 직전에는 Board와 User만 조회된 상태이다");
         return "/board/detail";
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateform(@PathVariable Integer id, HttpServletRequest request){
+    public String updateform(@PathVariable Integer id, HttpServletRequest request) {
         Board board = boardService.updateForm(id);
-        request.setAttribute("board",board);
+        request.setAttribute("board", board);
 
-         return "/board/update-form";
+        return "/board/update-form";
     }
 
     @Transactional
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO reqDTO){
+    public String update(@PathVariable Integer id, BoardRequest.UpdateDTO reqDTO) {
         User user = (User) session.getAttribute("sessionUser");
-        boardService.update(id,user.getId(),reqDTO);
+        boardService.update(id, user.getId(), reqDTO);
 
-        return "redirect:/board/"+id;
+        return "redirect:/board/" + id;
     }
 
     @PostMapping("/board/{id}/delete")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) {
         User user = (User) session.getAttribute("sessionUser");
-        boardService.delete(id,user.getId());
+        boardService.delete(id, user.getId());
 
         return "redirect:/";
     }

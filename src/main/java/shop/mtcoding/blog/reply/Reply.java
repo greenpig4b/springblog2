@@ -30,6 +30,8 @@ public class Reply {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
+    @Transient // 테이블 생성이 안됨
+    private boolean replyOwner;
     @CreationTimestamp  // pc --> db(알아서 날짜주입해줌)
     private Timestamp createdAt;
 
