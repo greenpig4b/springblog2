@@ -50,15 +50,16 @@ public class BoardJPARepositoryTest {
         //then
     }
 
-//    @Test
-//    public void findByJoinUser(){
-//        //given
-//        Integer id = 1;
-//        //when
-//        Optional<Board> boardOP = Optional.ofNullable(boardJPARepository.findByJoinUser(id));
-//        System.out.println(boardOP);
-//        //then
-//    }
+    @Test
+    public void findByJoinUser(){
+        //given
+        Integer id = 1;
+        //when
+        Optional<Board> boardOP = boardJPARepository.findByJoinUser(id);
+
+        System.out.println(boardOP);
+        //then
+    }
 
     @Test
     public void findAll(){
@@ -82,4 +83,16 @@ public class BoardJPARepositoryTest {
         System.out.println(boardList);
     }
 
+    @Test
+    public void fondByJoinUserAndReplys_test(){
+        //given
+        Integer id = 4;
+
+        //when
+        Optional<Board> board = boardJPARepository.findByJoinUserAndReplys(id);
+
+        //then
+        System.out.println("사이즈~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+board.get().getReplyList().size());
+
+    }
 }

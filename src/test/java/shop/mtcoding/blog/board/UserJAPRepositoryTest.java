@@ -35,8 +35,9 @@ public class UserJAPRepositoryTest {
         //when
         userJPARepository.save(user);
         //then
-
+        System.out.println("결과값~~~~~~~~~~~~~~~~~~~~~\n"+user);
     }
+
     @Test
     public void findByName(){
         //given
@@ -94,8 +95,6 @@ public class UserJAPRepositoryTest {
         userJPARepository.deleteById(id);
         em.flush();
     }
-
-
 
 
 //    @Test

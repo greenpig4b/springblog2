@@ -28,6 +28,7 @@ public class BoardService {
                 isOwner = true;
             }
         }
+
         board.setOwner(isOwner);
 
         return board;

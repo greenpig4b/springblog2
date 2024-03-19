@@ -50,10 +50,10 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id,HttpServletRequest request) {
         User user = (User) session.getAttribute("sessionUser");
-
-      Board board = boardService.boardDetail(id,user);
+        Board board = boardService.boardDetail(id,user);
 
         request.setAttribute("board",board);
+        System.out.println("서버 사이드 렌더링 직전에는 Board와 User만 조회된 상태이다");
         return "/board/detail";
     }
 
