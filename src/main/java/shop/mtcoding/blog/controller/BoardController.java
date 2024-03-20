@@ -23,11 +23,12 @@ public class BoardController {
 
     //Model : 안에 리퀘스트 포함하고있음
 
-    //TODO -- 글목록조회 API 필요
-    //TODO -- 글상세보기 API 필요
-    //TODO -- 글조회 API 필요
+    //TODO -- 글목록조회 API 필요 @GetMapping("/") 메인페이지
+    //TODO -- 글상세보기 API 필요 @GetMapping("/api/boards/{id}/detail")
+    //TODO -- 글조회 API 필요 @GetMapping("/api/boards/{id}")
 
-    @PostMapping("/board/save")
+
+    @PostMapping("/api/boards")
     public String save(BoardRequest.SaveDTO reqDTO) {
         User user = (User) session.getAttribute("sessionUser");
         boardService.write(reqDTO, user);
@@ -35,7 +36,7 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @PostMapping("/board/{id}/update")
+    @PutMapping("/api/boards/{id}")
     public String update(@PathVariable Integer id, BoardRequest.UpdateDTO reqDTO) {
         User user = (User) session.getAttribute("sessionUser");
         boardService.update(id, user.getId(), reqDTO);
@@ -43,7 +44,7 @@ public class BoardController {
         return "redirect:/board/" + id;
     }
 
-    @PostMapping("/board/{id}/delete")
+    @DeleteMapping("/api/boards/{id}")
     public String delete(@PathVariable Integer id) {
         User user = (User) session.getAttribute("sessionUser");
         boardService.delete(id, user.getId());

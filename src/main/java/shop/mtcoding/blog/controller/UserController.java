@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog.user.*;
@@ -19,12 +20,13 @@ import shop.mtcoding.blog.user.*;
 @Controller
 public class UserController {
 
-    private final UserRepository userRepository;
+
     private final HttpSession session;
     private final UserJPARepository userJPARepository;
     private final UserService userService;
 
-    //:TODO -- 회원정보 조회 API 필요
+    //:TODO -- 회원정보 조회 API 필요  @GetMapping("/api/users/{id}")
+
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO loginDTO){
@@ -40,14 +42,14 @@ public class UserController {
         return "redirect:/";
     }
 
-    // 회원가입
+    // 회원가입, 인증이필요없는 컨트롤러는 따로만드는게 좋다.
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO){
         userService.join(reqDTO);
         return "redirect: /";
     }
 
-    @PostMapping("/user/update")
+    @PutMapping("/api/users/{id}")
     public String update(UserRequest.UpdateDTO updateDTO){
 
         User user = (User) session.getAttribute("sessionUser");
