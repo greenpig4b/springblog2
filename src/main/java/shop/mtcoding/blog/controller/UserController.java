@@ -24,6 +24,8 @@ public class UserController {
     private final UserJPARepository userJPARepository;
     private final UserService userService;
 
+    //:TODO -- 회원정보 조회 API 필요
+
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO loginDTO){
 //        try {
@@ -45,29 +47,6 @@ public class UserController {
         return "redirect: /";
     }
 
-    @GetMapping("/user/join-form")
-    public String joinForm() {
-
-        return "/user/join-form";
-    }
-
-    @GetMapping("/user/login-form")
-    public String loginForm() {
-
-        return "/user/login-form";
-    }
-
-    @GetMapping("/user/update-form")
-    public String updateForm(HttpServletRequest request) {
-
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        User user = userService.updateForm(sessionUser.getId());
-        request.setAttribute("userList",user);
-
-        return "/user/update-form";
-    }
-
-    @Transactional
     @PostMapping("/user/update")
     public String update(UserRequest.UpdateDTO updateDTO){
 

@@ -22,12 +22,10 @@ public class BoardController {
     private final BoardService boardService;
 
     //Model : 안에 리퀘스트 포함하고있음
-    @GetMapping({"/"})
-    public String index(HttpServletRequest request) {
-        List<Board> boardList = boardService.boardList();
-        request.setAttribute("boardList", boardList);
-        return "index";
-    }
+
+    //TODO -- 글목록조회 API 필요
+    //TODO -- 글상세보기 API 필요
+    //TODO -- 글조회 API 필요
 
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO) {
@@ -37,31 +35,6 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @GetMapping("/board/save-form")
-    public String saveForm() {
-
-        return "/board/save-form";
-    }
-
-    @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id, HttpServletRequest request) {
-        User user = (User) session.getAttribute("sessionUser");
-        Board board = boardService.boardDetail(id, user);
-
-        request.setAttribute("board", board);
-        System.out.println("서버 사이드 렌더링 직전에는 Board와 User만 조회된 상태이다");
-        return "/board/detail";
-    }
-
-    @GetMapping("/board/{id}/update-form")
-    public String updateform(@PathVariable Integer id, HttpServletRequest request) {
-        Board board = boardService.updateForm(id);
-        request.setAttribute("board", board);
-
-        return "/board/update-form";
-    }
-
-    @Transactional
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id, BoardRequest.UpdateDTO reqDTO) {
         User user = (User) session.getAttribute("sessionUser");
