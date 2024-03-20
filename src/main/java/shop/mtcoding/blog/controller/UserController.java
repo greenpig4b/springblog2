@@ -27,10 +27,10 @@ public class UserController {
     //:TODO -- 회원정보 조회 API 필요  @GetMapping("/api/users/{id}")
 
     //회원정보 조회
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/users/{id}") //데이터를 들고가는 Model은 @GetMapping으로 데이터 들고가야함
     public ResponseEntity<?> userInfo(@PathVariable Integer id){
-        User user = userService.updateForm(id);
-        return ResponseEntity.ok(new ApiUtil(user));
+        UserResponse.DTO respDTO = userService.updateForm(id);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     // 로그인

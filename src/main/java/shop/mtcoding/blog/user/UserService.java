@@ -40,10 +40,10 @@ public class UserService {
     }
 
     //업데이트 수정 Form
-    public User updateForm(Integer id){
+    public UserResponse.DTO updateForm(Integer id){
         User user = userJPARepository.findById(id)
                 .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다.")); //예외처리
-        return user ;
+        return new UserResponse.DTO(user); //앤티티 생명 종류
     }
 
     //업데이트 수정

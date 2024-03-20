@@ -1,19 +1,12 @@
 package shop.mtcoding.blog.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import shop.mtcoding.blog._core.errors.exception.Exception403;
-import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog._core.utils.ApiUtil;
 import shop.mtcoding.blog.board.*;
 import shop.mtcoding.blog.user.User;
-import shop.mtcoding.blog.user.UserRepository;
 
 import java.util.List;
 
@@ -32,8 +25,8 @@ public class BoardController {
     // 해결방법 : 1.open in view : false 2. service종료직전에 lazy loading 발동  3. DTO 생성
     @GetMapping("/")
     public ResponseEntity<?> main(){
-        List<Board> boardList = boardService.boardList();
-        return ResponseEntity.ok(new ApiUtil(boardList));
+        List<BoardResponse.MainDTO> respDTO = boardService.boardList();
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     //TODO -- 글상세보기 API 필요 @GetMapping("/api/boards/{id}/detail")
