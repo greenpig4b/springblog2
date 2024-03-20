@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.board.*;
@@ -20,7 +18,6 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-    private final BoardRepository boardRepository;
     private final HttpSession session;
     private final BoardService boardService;
 
@@ -31,7 +28,6 @@ public class BoardController {
         request.setAttribute("boardList", boardList);
         return "index";
     }
-
 
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO) {
