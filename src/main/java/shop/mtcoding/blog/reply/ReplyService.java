@@ -15,13 +15,13 @@ public class ReplyService {
     private final BoardJPARepository boardJPARepository;
 
     //댓글쓰기
-    public void write(ReplyRequest.SaveDTO reqDTO, User sessionUSer) {
+    public Reply write(ReplyRequest.SaveDTO reqDTO, User sessionUSer) {
         Board board = boardJPARepository.findById(reqDTO.getBoardId())
                 .orElseThrow(() -> new Exception404("찾을 수 없습니다"));
 
         Reply reply = reqDTO.toEntity(sessionUSer, board);
 
-        replyJPARepository.save(reply);
+        return replyJPARepository.save(reply);
     }
 
     //댓글삭제

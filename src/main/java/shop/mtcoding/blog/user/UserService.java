@@ -19,7 +19,7 @@ public class UserService {
 
     //회원가입
     @Transactional
-    public void join(UserRequest.JoinDTO reqDTO){
+    public User join(UserRequest.JoinDTO reqDTO){
         //1. 유효성검사 (컨트롤러 책임)
         //2. 유저네임 중복검사 (서비스책임) -DB연결필요
         Optional<User> userOP = userJPARepository.findByUserName(reqDTO.getUserName());
@@ -27,13 +27,12 @@ public class UserService {
         if (userOP.isPresent()){
             throw new Exception400("중복된 유저네임 입니다");
         }
-        userJPARepository.save(reqDTO.toEntity());
+        return userJPARepository.save(reqDTO.toEntity());
     }
 
     //로그인
     public User login(UserRequest.LoginDTO reqDTO){
         //해시검사
-
         //값이 null이면
         User sessionUser =  userJPARepository.findByUserNameAndPassword(reqDTO.getUserName(),reqDTO.getPassword())
                 .orElseThrow(() -> new Exception401("인증되지않았습니다"));

@@ -83,8 +83,8 @@ public class BoardService {
         board.setTitle(reqDTO.getTitle());
         board.setContent(reqDTO.getContent());
 
+        return board;
         // 더티채킹
-        return null;
     }
 
     //글삭제하기
