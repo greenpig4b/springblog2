@@ -46,9 +46,10 @@ public class BoardService {
     }
 
     //글조회
-    public List<Board> boardList() {
+    public List<BoardResponse.MainDTO> boardList() {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        return boardJPARepository.findAll(sort);
+        List<Board> boardResponseList = boardJPARepository.findAll(sort);
+        return boardResponseList.stream().map(boardResponse -> new BoardResponse.MainDTO(boardResponse)).toList();
     }
 
     //글쓰기
@@ -83,8 +84,8 @@ public class BoardService {
         board.setTitle(reqDTO.getTitle());
         board.setContent(reqDTO.getContent());
 
+        return board;
         // 더티채킹
-        return null;
     }
 
     //글삭제하기
