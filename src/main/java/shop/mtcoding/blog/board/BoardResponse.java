@@ -2,6 +2,9 @@ package shop.mtcoding.blog.board;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardResponse {
 
     @Data
@@ -9,29 +12,16 @@ public class BoardResponse {
         private Integer id;
         private String title;
         private String content;
-        private UserDTO user;
+        private Integer userId;
         private Boolean isOwner;
+        private List<ReplyDTO> replies = new ArrayList<>();
 
-        public DetailDTO(Board board, Integer sessionUserId) {
-            this.id = board.getId();
-            this.title = board.getTitle();
-            this.content = board.getContent();
-            this.isOwner = false;
-
-            if (sessionUserId == id){
-                isOwner = true;
-            }
-        }
-
-        public static class UserDTO{
+        @Data
+        private class ReplyDTO{
             private Integer id;
+            private String comment;
+            private Integer userId;
             private String userName;
-
-            public UserDTO(Integer id, String userName) {
-                this.id = id;
-                this.userName = userName;
-            }
-
         }
     }
 }
