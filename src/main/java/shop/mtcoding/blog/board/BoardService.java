@@ -18,31 +18,11 @@ public class BoardService {
 
 
     //글상세보기
-    public Board boardDetail(Integer boardId, User sessionUser) {
-        Board board = boardJPARepository.findByJoinUser(boardId)
+    public BoardResponse.DetailDTO boardDetail(Integer boardId, User sessionUser) {
+       Board board = boardJPARepository.findByJoinUser(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
 
-        boolean BoardOwner = false;
-        if (sessionUser != null) {
-            if (sessionUser.getId() == board.getUser().getId()) {
-                BoardOwner = true;
-            }
-        }
-        board.setBoardOwner(BoardOwner);
-
-
-        board.getReplyList().forEach(reply -> {
-            boolean ReplyOwner = false;
-
-            if (sessionUser != null) {
-                if (reply.getUser().getId() == sessionUser.getId()) {
-                    ReplyOwner = true;
-                }
-            }
-            reply.setReplyOwner(ReplyOwner);
-        });
-
-        return board;
+        return new BoardResponse.DetailDTO(board,sessionUser);
     }
 
     //글조회

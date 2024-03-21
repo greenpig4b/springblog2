@@ -32,9 +32,9 @@ public class BoardController {
     //TODO -- 글상세보기 API 필요 @GetMapping("/api/boards/{id}/detail")
     @GetMapping("/api/boards/{id}/detail")
     public ResponseEntity<?> detail(@PathVariable Integer id){
-        User user = (User) session.getAttribute("sessionUser");
-        Board board = boardService.boardDetail(id,user);
-        return ResponseEntity.ok(new ApiUtil(board));
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        BoardResponse.DetailDTO respDTO = boardService.boardDetail(id,sessionUser);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     //TODO -- 글조회 API 필요 @GetMapping("/api/boards/{id}")
